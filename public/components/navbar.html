@@ -1,0 +1,81 @@
+<!-- public/components/navbar.html -->
+<header class="bg-[#4169E1] text-white p-4">
+  <nav class="container mx-auto flex justify-between items-center">
+    <a href="index.html" class="text-xl font-bold">BidHive</a>
+    <div class="hidden md:flex space-x-6 flex-grow justify-center">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="listings.html" class="hover:underline">Listings</a>
+      <a href="contact.html" class="hover:underline">Contact</a>
+    </div>
+    <div class="hidden md:flex space-x-2 ml-auto">
+      <a
+        id="register-link"
+        href="register.html"
+        class="bg-[#FFF44F] text-black px-3 py-2 rounded"
+        >Register</a
+      >
+      <a
+        id="login-link"
+        href="login.html"
+        class="bg-[#FFF44F] text-black px-3 py-2 rounded"
+        >Login</a
+      >
+      <a id="profile-link" href="profile.html" class="hidden hover:underline"
+        >Profile</a
+      >
+      <a
+        id="logout-link"
+        href="logout.html"
+        class="hidden bg-[#FFF44F] text-black px-3 py-2 rounded"
+        >Logout</a
+      >
+    </div>
+    <button id="menu-button" class="md:hidden flex flex-col space-y-1">
+      <span class="block w-6 h-0.5 bg-black"></span>
+      <span class="block w-6 h-0.5 bg-black"></span>
+      <span class="block w-6 h-0.5 bg-black"></span>
+    </button>
+  </nav>
+  <div
+    id="mobile-menu"
+    class="hidden fixed inset-0 bg-[#4169E1] flex flex-col items-center justify-center space-y-4 pt-8"
+  >
+    <button
+      id="close-menu-button"
+      class="absolute top-4 right-4 text-white text-3xl"
+    >
+      &times;
+    </button>
+    <a href="index.html" class="text-white text-lg hover:underline">Home</a>
+    <a href="listings.html" class="text-white text-lg hover:underline"
+      >Listings</a
+    >
+    <a href="contact.html" class="text-white text-lg hover:underline"
+      >Contact</a
+    >
+    <a
+      id="mobile-register-link"
+      href="register.html"
+      class="bg-[#FFF44F] text-black px-3 py-2 rounded"
+      >Register</a
+    >
+    <a
+      id="mobile-login-link"
+      href="login.html"
+      class="bg-[#FFF44F] text-black px-3 py-2 rounded"
+      >Login</a
+    >
+    <a
+      id="mobile-profile-link"
+      href="profile.html"
+      class="hidden text-white text-lg hover:underline"
+      >Profile</a
+    >
+    <a
+      id="mobile-logout-link"
+      href="logout.html"
+      class="hidden bg-[#FFF44F] text-black px-3 py-2 rounded"
+      >Logout</a
+    >
+  </div>
+</header>
