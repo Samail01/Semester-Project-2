@@ -1,63 +1,5 @@
-import { userAuthEndpoints } from "../../api.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadComponent("header", "/public/components/navbar.html");
-  loadComponent("footer", "/public/components/footer.html");
-
-  const loginForm = document.getElementById("login-form");
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    try {
-      const response = await fetch(userAuthEndpoints.login, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        localStorage.setItem("user-token", data.accessToken);
-        localStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("user-name", data.name);
-        console.log("Token stored:", localStorage.getItem("user-token"));
-        alert("Login successful!");
-        updateNavbar();
-        window.location.href = "/public/index.html";
-      } else {
-        const errorData = await response.json();
-        alert(`Login failed: ${errorData.message}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred during login.");
-    }
-  });
-});
-
-function loadComponent(id, url) {
-  fetch(url)
-    .then((response) => response.text())
-    .then((data) => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.innerHTML = data;
-        if (id === "header") {
-          setupNavbar();
-          updateNavbar();
-        }
-      } else {
-        console.error(`Element with id "${id}" not found.`);
-      }
-    })
-    .catch((error) => console.error("Error loading component:", error));
-}
-
-function setupNavbar() {
+/* Setup navbar for desktop and mobile */
+export function setupNavbar() {
   const menuButton = document.getElementById("menu-button");
   const closeMenuButton = document.getElementById("close-menu-button");
   const mobileMenu = document.getElementById("mobile-menu");
@@ -74,6 +16,7 @@ function setupNavbar() {
     console.error("Navbar elements not found.");
   }
 
+  /* Logout | removes the localStorage info and redirects to Home page */
   const logoutLink = document.getElementById("logout-link");
   if (logoutLink) {
     logoutLink.addEventListener("click", () => {
@@ -83,10 +26,12 @@ function setupNavbar() {
       window.location.href = "/public/index.html";
     });
   }
+
+  updateNavbar();
 }
 
-function updateNavbar() {
-  console.log("Updating Navbar");
+/* Update navbar based on user login status, if logged in logout and profile appears */
+export function updateNavbar() {
   const token = localStorage.getItem("user-token");
   console.log("Token:", token);
   const registerLink = document.getElementById("register-link");

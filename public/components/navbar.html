@@ -1,31 +1,33 @@
-<!-- public/components/navbar.html -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-[#4169E1] text-white p-4">
   <nav class="container mx-auto flex justify-between items-center">
-    <a href="index.html" class="text-xl font-bold">BidHive</a>
+    <a href="/public/index.html" class="text-xl font-bold">BidHive</a>
     <div class="hidden md:flex space-x-6 flex-grow justify-center">
-      <a href="index.html" class="hover:underline">Home</a>
-      <a href="listings.html" class="hover:underline">Listings</a>
-      <a href="contact.html" class="hover:underline">Contact</a>
+      <a href="/public/index.html" class="hover:underline">Home</a>
+      <a href="/public/listings.html" class="hover:underline">Listings</a>
+      <a href="/public/contact.html" class="hover:underline">Contact</a>
+      <a
+        id="profile-link"
+        href="/public/profile.html"
+        class="hidden hover:underline"
+        >Profile</a
+      >
     </div>
     <div class="hidden md:flex space-x-2 ml-auto">
       <a
         id="register-link"
-        href="register.html"
+        href="/public/auth/register/register.html"
         class="bg-[#FFF44F] text-black px-3 py-2 rounded"
         >Register</a
       >
       <a
         id="login-link"
-        href="login.html"
+        href="/public/auth/login/login.html"
         class="bg-[#FFF44F] text-black px-3 py-2 rounded"
         >Login</a
       >
-      <a id="profile-link" href="profile.html" class="hidden hover:underline"
-        >Profile</a
-      >
       <a
         id="logout-link"
-        href="logout.html"
+        href="#"
         class="hidden bg-[#FFF44F] text-black px-3 py-2 rounded"
         >Logout</a
       >
@@ -46,34 +48,36 @@
     >
       &times;
     </button>
-    <a href="index.html" class="text-white text-lg hover:underline">Home</a>
-    <a href="listings.html" class="text-white text-lg hover:underline"
+    <a href="/public/index.html" class="text-white text-lg hover:underline"
+      >Home</a
+    >
+    <a href="/public/listings.html" class="text-white text-lg hover:underline"
       >Listings</a
     >
-    <a href="contact.html" class="text-white text-lg hover:underline"
+    <a href="/public/contact.html" class="text-white text-lg hover:underline"
       >Contact</a
     >
     <a
+      id="mobile-profile-link"
+      href="/public/profile.html"
+      class="hidden text-white text-lg hover:underline"
+      >Profile</a
+    >
+    <a
       id="mobile-register-link"
-      href="register.html"
+      href="/public/auth/register/register.html"
       class="bg-[#FFF44F] text-black px-3 py-2 rounded"
       >Register</a
     >
     <a
       id="mobile-login-link"
-      href="login.html"
+      href="/public/auth/login/login.html"
       class="bg-[#FFF44F] text-black px-3 py-2 rounded"
       >Login</a
     >
     <a
-      id="mobile-profile-link"
-      href="profile.html"
-      class="hidden text-white text-lg hover:underline"
-      >Profile</a
-    >
-    <a
       id="mobile-logout-link"
-      href="logout.html"
+      href="#"
       class="hidden bg-[#FFF44F] text-black px-3 py-2 rounded"
       >Logout</a
     >

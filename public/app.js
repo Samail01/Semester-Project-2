@@ -1,97 +1,101 @@
-// public/app.js
-import { fetchListings } from "./api.js";
+import { fetchListingsByTag } from "./api.js";
+import { loadComponent } from "./utils/domUtils.js";
+import { setupNavbar, updateNavbar } from "./utils/navbar.js";
+import { displayListings, displayAllListings } from "./utils/domListings.js";
 
+/* Waits until DOM is loaded */
 document.addEventListener("DOMContentLoaded", () => {
-  loadComponent("header", "components/navbar.html");
+  loadComponent("header", "components/navbar.html", setupNavbar);
   loadComponent("footer", "components/footer.html");
-  displayListings();
+  if (document.body.contains(document.getElementById("listings-all"))) {
+    displayAllListings();
+  } else {
+    displayListings();
+  }
+  setupSearch();
+  updateNavbar();
 });
 
-function loadComponent(id, url) {
-  fetch(url)
-    .then((response) => response.text())
-    .then((data) => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.innerHTML = data;
-        if (id === "header") {
-          setupNavbar();
-        }
-      } else {
-        console.error(`Element with id "${id}" not found.`);
+/* Setup search functionality */
+function setupSearch() {
+  const searchButton = document.getElementById("search-button");
+  const searchInput = document.getElementById("search-input");
+
+  if (searchButton && searchInput) {
+    searchButton.addEventListener("click", () => {
+      const query = searchInput.value.trim();
+      if (query) {
+        searchListings(query);
       }
-    })
-    .catch((error) => console.error("Error loading component:", error));
-}
-
-function setupNavbar() {
-  const menuButton = document.getElementById("menu-button");
-  const closeMenuButton = document.getElementById("close-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  if (menuButton && mobileMenu && closeMenuButton) {
-    menuButton.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
     });
-
-    closeMenuButton.addEventListener("click", () => {
-      mobileMenu.classList.add("hidden");
-    });
-  } else {
-    console.error("Navbar elements not found.");
   }
 }
 
-async function displayListings() {
+/* Search listings by tag */
+async function searchListings(query) {
   const listingsContainer = document.getElementById("listings");
-  listingsContainer.innerHTML = ""; // Clear any existing content
+  if (!listingsContainer) {
+    console.error('Element with id "listings" not found.');
+    return;
+  }
 
-  const listings = await fetchListings();
-  console.log(listings); // Log to inspect the structure
+  listingsContainer.innerHTML = "";
 
-  listings.forEach((listing) => {
+  const listings = await fetchListingsByTag(query);
+  console.log(listings);
+
+  listings.forEach(async (listing) => {
     const listingCard = document.createElement("div");
     listingCard.className =
       "border border-[#D7D7D7] rounded-lg overflow-hidden shadow-md bg-white";
+    listingCard.addEventListener("click", () => {
+      window.location.href = `listing.html?id=${listing.id}`;
+    });
 
-    let mediaUrl = "media/placeholder.jpg";
-    if (listing.media && listing.media.length > 0) {
-      mediaUrl = listing.media[0];
-    }
+    let mediaUrl = await validateImageUrl(
+      listing.media && listing.media.length > 0
+        ? listing.media[0]
+        : "media/placeholder.jpg"
+    );
 
     const endsAt = new Date(listing.endsAt).toLocaleDateString();
     const timeLeft = getTimeLeft(listing.endsAt);
 
     listingCard.innerHTML = `
-      <img src="${mediaUrl}" alt="${listing.title}" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-xl font-bold text-center">${listing.title}</h2>
-        <hr class="my-2 border-[#D7D7D7]">
-        <div class="flex justify-between text-red-500">
-          <p>Time left:</p>
-          <p>Price at:</p>
-        </div>
-        <div class="flex justify-between text-black">
-          <p>${timeLeft}</p>
-          <p>$${listing._count.bids}</p>
-        </div>
-      </div>
-    `;
+          <img src="${mediaUrl}" alt="${listing.title}" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h2 class="text-xl font-bold text-center">${listing.title}</h2>
+            <hr class="my-2 border-[#D7D7D7]">
+            <div class="flex justify-between text-red-500">
+              <p>Time left:</p>
+              <p>Started at:</p>
+            </div>
+            <div class="flex justify-between text-black">
+              <p>${timeLeft}</p>
+              <p>$${listing._count.bids}</p>
+            </div>
+          </div>
+        `;
 
     listingsContainer.appendChild(listingCard);
   });
-
-  // Add "View All" button
-  const viewAllButton = document.createElement("button");
-  viewAllButton.className = "mt-4 bg-[#4169E1] text-white px-4 py-2 rounded";
-  viewAllButton.innerText = "View All";
-  viewAllButton.addEventListener("click", () => {
-    window.location.href = "listings.html";
-  });
-
-  listingsContainer.appendChild(viewAllButton);
 }
 
+/* Validate if the image URL is valid */
+async function validateImageUrl(url) {
+  try {
+    const response = await fetch(url, { method: "HEAD", mode: "no-cors" });
+    if (response.ok || response.type === "opaque") {
+      return url;
+    } else {
+      return "media/placeholder.jpg";
+    }
+  } catch (error) {
+    return "media/placeholder.jpg";
+  }
+}
+
+/* Function that calculates the remaining time of a listing */
 function getTimeLeft(endTime) {
   const now = new Date();
   const end = new Date(endTime);

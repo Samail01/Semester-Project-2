@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - BidHive</title>
+    <link href="../../styles.css" rel="stylesheet" />
+    <script defer type="module" src="register.js"></script>
+  </head>
+  <body>
+    <div id="header"></div>
+    <main class="mt-16">
+      <section class="flex justify-center p-10">
+        <div class="w-full max-w-md bg-gray-300 p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-4 text-center">Register</h2>
+          <form id="register-form">
+            <div class="mb-4">
+              <label class="block text-gray-700">Name</label>
+              <input
+                type="text"
+                id="name"
+                class="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Avatar</label>
+              <input
+                type="url"
+                id="avatar"
+                class="w-full p-2 border border-gray-300 rounded"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-[#4169E1] text-white p-2 rounded"
+            >
+              Register
+            </button>
+          </form>
+          <p class="mt-4 text-center">
+            Already have an account?
+            <a href="../login/login.html" class="text-blue-500">Login here</a>
+          </p>
+        </div>
+      </section>
+    </main>
+    <div id="footer"></div>
+  </body>
+</html>
