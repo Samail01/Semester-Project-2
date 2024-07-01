@@ -8,7 +8,7 @@ export const userAuthEndpoints = {
 
 /* Fetch limited listings for Home Page */
 export const fetchListings = async (limit = 12) => {
-  const url = `https://api.noroff.dev/api/v1/auction/listings?_seller=true&_bids=true&_count&sort=endsAt&sortOrder=desc&_active=true&tags=true&limit=${limit}`;
+  const url = `https://api.noroff.dev/api/v1/auction/listings?_seller=true&_bids=true&_count=true&sort=endsAt&sortOrder=desc&_active=true&limit=${limit}`;
 
   try {
     const response = await fetch(url, {
@@ -31,7 +31,7 @@ export const fetchListings = async (limit = 12) => {
 
 /* Fetch all listings for Listings Page */
 export const fetchAllListings = async () => {
-  const url = `https://api.noroff.dev/api/v1/auction/listings?_seller=true&_bids=true&_count&sort=endsAt&sortOrder=desc&_active=true&tags=true`;
+  const url = `https://api.noroff.dev/api/v1/auction/listings?_seller=true&_bids=true&_count=true&sort=endsAt&sortOrder=desc&_active=true`;
 
   try {
     const response = await fetch(url, {
@@ -138,7 +138,7 @@ export const fetchProfileListings = async (name) => {
     });
     if (response.ok) {
       const data = await response.json();
-      return data.data;
+      return data;
     } else {
       throw new Error("Failed to fetch profile listings");
     }
@@ -199,32 +199,27 @@ export const placeBid = async (listingId, bidAmount) => {
 };
 
 /* Function to create a new listing */
-export const createListing = async (title, description, media, endsAt) => {
-  console.log(media);
-  const url = `https://api.noroff.dev/api/v1/auction/listings`;
+export const createListing = async (listingData) => {
+  const url = "https://api.noroff.dev/api/v1/auction/listings";
   const token = localStorage.getItem("user-token");
+
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      title: title,
-      description: description,
-      media: media,
-      endsAt: endsAt,
-    }),
+    body: JSON.stringify(listingData),
   };
 
   try {
     const response = await fetch(url, requestOptions);
-    const data = await response.json();
+    const responseData = await response.json();
     if (!response.ok) {
-      console.error("Error data:", data);
+      console.error("Error data:", responseData);
       throw new Error("Failed to create listing");
     }
-    return data;
+    return responseData;
   } catch (error) {
     console.error("Error creating listing:", error);
     return null;

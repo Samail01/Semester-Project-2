@@ -8,7 +8,7 @@ export async function displayListings() {
   const listings = await fetchListings();
   console.log(listings);
 
-  listings.forEach(async (listing) => {
+  listings.forEach((listing) => {
     const listingCard = document.createElement("div");
     listingCard.className =
       "border border-[#D7D7D7] rounded-lg overflow-hidden shadow-md bg-white";
@@ -16,11 +16,10 @@ export async function displayListings() {
       window.location.href = `listing.html?id=${listing.id}`;
     });
 
-    let mediaUrl = await validateImageUrl(
+    let mediaUrl =
       listing.media && listing.media.length > 0
         ? listing.media[0]
-        : "media/placeholder.jpg"
-    );
+        : "media/placeholder.jpg";
 
     const endsAt = new Date(listing.endsAt).toLocaleDateString();
     const timeLeft = getTimeLeft(listing.endsAt);
@@ -32,11 +31,11 @@ export async function displayListings() {
           <hr class="my-2 border-[#D7D7D7]">
           <div class="flex justify-between text-red-500">
             <p>Time left:</p>
-            <p>Started at:</p>
+            <p>Ends at:</p>
           </div>
           <div class="flex justify-between text-black">
             <p>${timeLeft}</p>
-            <p>$${listing._count.bids}</p>
+            <p>${endsAt}</p>
           </div>
         </div>
       `;
@@ -68,7 +67,7 @@ export async function displayAllListings() {
   const listings = await fetchAllListings();
   console.log(listings);
 
-  listings.forEach(async (listing) => {
+  listings.forEach((listing) => {
     const listingCard = document.createElement("div");
     listingCard.className =
       "border border-[#D7D7D7] rounded-lg overflow-hidden shadow-md bg-white";
@@ -76,11 +75,10 @@ export async function displayAllListings() {
       window.location.href = `listing.html?id=${listing.id}`;
     });
 
-    let mediaUrl = await validateImageUrl(
+    let mediaUrl =
       listing.media && listing.media.length > 0
         ? listing.media[0]
-        : "media/placeholder.jpg"
-    );
+        : "media/placeholder.jpg";
 
     const endsAt = new Date(listing.endsAt).toLocaleDateString();
     const timeLeft = getTimeLeft(listing.endsAt);
@@ -92,31 +90,17 @@ export async function displayAllListings() {
           <hr class="my-2 border-[#D7D7D7]">
           <div class="flex justify-between text-red-500">
             <p>Time left:</p>
-            <p>Started at:</p>
+            <p>Ends at:</p>
           </div>
           <div class="flex justify-between text-black">
             <p>${timeLeft}</p>
-            <p>$${listing._count.bids}</p>
+            <p>${endsAt}</p>
           </div>
         </div>
       `;
 
     listingsContainer.appendChild(listingCard);
   });
-}
-
-/* Validate if the image URL is valid */
-async function validateImageUrl(url) {
-  try {
-    const response = await fetch(url, { method: "HEAD", mode: "no-cors" });
-    if (response.ok || response.type === "opaque") {
-      return url;
-    } else {
-      return "media/placeholder.jpg";
-    }
-  } catch (error) {
-    return "media/placeholder.jpg";
-  }
 }
 
 /* Function that calculates the remaining time of a listing */
@@ -127,7 +111,7 @@ function getTimeLeft(endTime) {
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const minutes = Math.floor((diff % (1000 * 60)) / 1000 / 60);
 
   return `${days}d ${hours}h ${minutes}m`;
 }
