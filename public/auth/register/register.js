@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../../auth/login/login.html";
       } else {
         const errorData = await response.json();
+        console.error("Registration failed:", errorData);
         alert(`Registration failed: ${errorData.message}`);
       }
     } catch (error) {
