@@ -23,7 +23,7 @@ export function setupNavbar() {
       localStorage.clear();
       alert("Logged out successfully!");
       updateNavbar();
-      window.location.href = "/public/index.html";
+      window.location.href = "/index.html";
     });
   }
 
