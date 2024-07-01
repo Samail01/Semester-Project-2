@@ -1,8 +1,8 @@
 import { userAuthEndpoints } from "../../api.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadComponent("header", "/public/components/navbar.html");
-  loadComponent("footer", "/public/components/footer.html");
+  loadComponent("header", "../../components/navbar.html");
+  loadComponent("footer", "../../components/footer.html");
 
   const loginForm = document.getElementById("login-form");
   loginForm.addEventListener("submit", async (event) => {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Token stored:", localStorage.getItem("user-token"));
         alert("Login successful!");
         updateNavbar();
-        window.location.href = "/public/index.html";
+        window.location.href = "../../index.html";
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message}`);
@@ -80,7 +80,7 @@ function setupNavbar() {
       localStorage.clear();
       alert("Logged out successfully!");
       updateNavbar();
-      window.location.href = "/public/index.html";
+      window.location.href = "../../index.html";
     });
   }
 }

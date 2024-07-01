@@ -1,9 +1,8 @@
 import { userAuthEndpoints } from "../../api.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadComponent("header", "/public/components/navbar.html");
-  loadComponent("footer", "/public/components/footer.html");
-  updateNavbar();
+  loadComponent("header", "../../components/navbar.html");
+  loadComponent("footer", "../../components/footer.html");
 
   const registerForm = document.getElementById("register-form");
   registerForm.addEventListener("submit", async (event) => {
@@ -35,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
         console.log("Registration successful:", data);
         alert("Registration successful!");
-        window.location.href = "/public/auth/login/login.html";
+        window.location.href = "../../auth/login/login.html";
       } else {
         const errorData = await response.json();
         alert(`Registration failed: ${errorData.message}`);
@@ -88,7 +87,7 @@ function setupNavbar() {
       localStorage.clear();
       alert("Logged out successfully!");
       updateNavbar();
-      window.location.href = "/public/index.html";
+      window.location.href = "../../index.html";
     });
   }
 }
